@@ -14,7 +14,11 @@ const addVehicle = async (req, res) => {
 // Get All Vehicles
 const getVehicles = async (req, res) => {
   try {
-    const vehicles = await Vehicle.find({ status: 'available' });  // Filter available
+    const { location, startDate, endDate } = req.query;
+    let query = { status: 'available' };
+    if (location) query.location = { $regex: location, $options: 'i' }; // Case-insensitive search
+    // For dates, add logic if bookings overlap (simplified)
+    const vehicles = await Vehicle.find(query);
     res.json(vehicles);
   } catch (err) {
     res.status(500).json({ msg: err.message });

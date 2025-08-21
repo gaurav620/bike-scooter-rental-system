@@ -1,15 +1,48 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~react-datepicker/dist/react-datepicker.css";
 
 body {
-  background-color: #f8f9fa; /* Light gray for professional look */
-  font-family: 'Roboto', sans-serif; /* Modern font */
+  font-family: 'Arial', sans-serif;
+  background-color: #fff;
 }
 
 .navbar {
-  background-color: #007bff; /* Blue for trust */
+  background-color: #ff0000;
 }
 
-.card {
+.hero {
+  background-color: #000;
+  color: white;
+  padding: 100px 0;
+  text-align: left;
+  position: relative;
+}
+
+.hero img {
+  background-image: url('./assets/scooter.jpeg');
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+}
+
+.search-bar {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.section {
+  padding: 50px 0;
+}
+
+.footer {
+  background-color: #ff0000;
+  color: white;
+  padding: 20px 0;
 }

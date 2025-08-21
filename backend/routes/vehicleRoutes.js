@@ -4,7 +4,6 @@ const { addVehicle, getVehicles, updateVehicleStatus } = require('../controllers
 const router = express.Router();
 
 router.post('/', addVehicle);
-router.get('/', getVehicles);
-router.put('/:id', updateVehicleStatus);
+router.get('/', getVehicles); // Existing
 
 module.exports = router;

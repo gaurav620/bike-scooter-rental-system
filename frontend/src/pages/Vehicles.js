@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Row, Col, Modal, Form } from 'react-bootstrap';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'; // Google Maps
 import API from '../services/api';
-import { FaBicycle, FaMotorcycle } from 'react-icons/fa'; // Icons for bike/scooter
+import { FaBicycle, FaMotorcycle } from 'react-icons/fa';
+
+const mapContainerStyle = {
+  height: '400px',
+  width: '100%'
+};
+
+const center = { lat: 20.5937, lng: 78.9629 }; // Center of India
 
 const Vehicles = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -39,10 +47,18 @@ const Vehicles = () => {
 
   return (
     <div>
-      <h2 className="mb-4">Available Vehicles</h2>
-      <Row>
+      <h2 className="mb-4">Available Vehicles Across India</h2>
+      <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+        <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={5}>
+          {vehicles.map(v => {
+            const [lat, lng] = v.location.split(',').map(Number);
+            return <Marker key={v._id} position={{ lat, lng }} title={v.model} />;
+          })}
+        </GoogleMap>
+      </LoadScript>
+      <Row className="mt-4">
         {vehicles.map(v => (
-          <Col md={4} key={v._id} className="mb-4">
+          <Col md= {4} key={v._id} className="mb-4">
             <Card>
               <Card.Body>
                 <Card.Title>{v.model} {v.type === 'bike' ? <FaBicycle /> : <FaMotorcycle />}</Card.Title>
