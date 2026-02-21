@@ -1,48 +1,259 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~react-datepicker/dist/react-datepicker.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ===== CSS Custom Properties ===== */
+:root {
+  --bg-primary: #0a0e27;
+  --bg-secondary: #111639;
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --bg-glass: rgba(255, 255, 255, 0.08);
+  --bg-glass-hover: rgba(255, 255, 255, 0.12);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --accent-1: #00d4ff;
+  --accent-2: #7c3aed;
+  --accent-3: #06d6a0;
+  --accent-gradient: linear-gradient(135deg, #00d4ff, #7c3aed);
+  --accent-gradient-2: linear-gradient(135deg, #06d6a0, #00d4ff);
+  --danger: #ff4757;
+  --warning: #ffa502;
+  --success: #2ed573;
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fff;
+  font-family: var(--font-family);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.navbar {
-  background-color: #ff0000;
+/* Override Bootstrap dark quirks */
+.container, .container-fluid {
+  background: transparent !important;
 }
 
-.hero {
-  background-color: #000;
+a { text-decoration: none; }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--accent-1); border-radius: 10px; }
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+/* ===== Glass Card ===== */
+.glass-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: var(--bg-glass-hover);
+  border-color: rgba(0, 212, 255, 0.25);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ===== Gradient Button ===== */
+.btn-gradient {
+  background: var(--accent-gradient);
+  border: none;
   color: white;
-  padding: 100px 0;
-  text-align: left;
-  position: relative;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
 }
 
-.hero img {
-  background-image: url('./assets/scooter.jpeg');
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-}
-
-.search-bar {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.section {
-  padding: 50px 0;
-}
-
-.footer {
-  background-color: #ff0000;
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.35);
   color: white;
-  padding: 20px 0;
+}
+
+.btn-gradient-green {
+  background: var(--accent-gradient-2);
+}
+
+.btn-gradient-green:hover {
+  box-shadow: 0 8px 25px rgba(6, 214, 160, 0.35);
+}
+
+/* ===== Section Styling ===== */
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+/* ===== Input Styling ===== */
+.modern-input {
+  background: var(--bg-glass) !important;
+  border: 1px solid var(--border-glass) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 12px 16px !important;
+  font-family: var(--font-family) !important;
+  transition: all 0.3s ease !important;
+}
+
+.modern-input:focus {
+  border-color: var(--accent-1) !important;
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.modern-input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* ===== Badge ===== */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-available { background: rgba(46, 213, 115, 0.15); color: #2ed573; }
+.badge-in-use { background: rgba(255, 165, 2, 0.15); color: #ffa502; }
+.badge-maintenance { background: rgba(255, 71, 87, 0.15); color: #ff4757; }
+.badge-booked { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }
+.badge-active { background: rgba(46, 213, 115, 0.15); color: #2ed573; }
+.badge-completed { background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); }
+.badge-pending { background: rgba(255, 165, 2, 0.15); color: #ffa502; }
+.badge-paid { background: rgba(46, 213, 115, 0.15); color: #2ed573; }
+.badge-bike { background: rgba(124, 58, 237, 0.15); color: #7c3aed; }
+.badge-scooter { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }
+
+/* ===== Bootstrap Override ===== */
+.modal-content {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: var(--radius-lg) !important;
+  color: var(--text-primary) !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-glass) !important;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-glass) !important;
+}
+
+.btn-close {
+  filter: invert(1);
+}
+
+.spinner-border {
+  color: var(--accent-1) !important;
+}
+
+/* Datepicker dark override */
+.react-datepicker {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-glass) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-family) !important;
+}
+
+.react-datepicker__header {
+  background: var(--bg-primary) !important;
+  border-bottom: 1px solid var(--border-glass) !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker-time__header {
+  color: var(--text-primary) !important;
+}
+
+.react-datepicker__day:hover {
+  background: var(--accent-1) !important;
+  color: white !important;
+}
+
+.react-datepicker__day--selected {
+  background: var(--accent-2) !important;
 }

@@ -5,21 +5,35 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
-import Home from './pages/Home'; // Boongg-style home
+import Home from './pages/Home';
+import AboutUs from './pages/AboutUs';
+import Careers from './pages/Careers';
+import Blog from './pages/Blog';
+import Press from './pages/Press';
+import HelpCenter from './pages/HelpCenter';
+import ContactUs from './pages/ContactUs';
+import FAQs from './pages/FAQs';
+import PartnerWithUs from './pages/PartnerWithUs';
 import { logout, getUser } from './utils/auth';
 import Footer from './components/Footer';
+import './App.css';
 
 function App() {
   const user = getUser();
 
   return (
     <Router>
-      <BootstrapNavbar bg="danger" variant="dark" expand="lg" sticky="top">
+      <BootstrapNavbar expand="lg" sticky="top" className="modern-navbar">
         <Container>
-          <BootstrapNavbar.Brand as={Link} to="/">Boongg Rental</BootstrapNavbar.Brand>
-          <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
-          <BootstrapNavbar.Collapse id="basic-navbar-nav">
+          <BootstrapNavbar.Brand as={Link} to="/">
+            <span className="brand-icon">🏍️</span> RideFleet
+          </BootstrapNavbar.Brand>
+          <BootstrapNavbar.Toggle aria-controls="main-nav" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
+            <span style={{ color: 'white', fontSize: '1.5rem' }}>☰</span>
+          </BootstrapNavbar.Toggle>
+          <BootstrapNavbar.Collapse id="main-nav">
             <Nav className="me-auto">
+              <Nav.Link as={Link} to="/">Home</Nav.Link>
               <Nav.Link as={Link} to="/vehicles">Vehicles</Nav.Link>
               {user && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
             </Nav>
@@ -27,25 +41,33 @@ function App() {
               {!user ? (
                 <>
                   <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                  <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                  <Nav.Link as={Link} to="/register" className="auth-btn">Sign Up</Nav.Link>
                 </>
               ) : (
-                <Nav.Link onClick={logout}>Logout</Nav.Link>
+                <Nav.Link onClick={logout} className="logout-btn">Logout</Nav.Link>
               )}
             </Nav>
           </BootstrapNavbar.Collapse>
         </Container>
       </BootstrapNavbar>
 
-      <Container fluid className="mt-0 p-0"> {/* Fluid for full width */}
+      <div className="app-content">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/vehicles" element={<Vehicles />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/faqs" element={<FAQs />} />
+          <Route path="/partner" element={<PartnerWithUs />} />
           <Route path="/" element={<Home />} />
         </Routes>
-      </Container>
+      </div>
 
       <Footer />
     </Router>

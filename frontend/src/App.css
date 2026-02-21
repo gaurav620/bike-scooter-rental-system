@@ -1,38 +1,71 @@
-.App {
-  text-align: center;
+/* ===== Navbar ===== */
+.modern-navbar {
+  background: rgba(10, 14, 39, 0.85) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 0;
+  transition: all 0.3s ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.modern-navbar .navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 8px;
 }
 
-.App-link {
-  color: #61dafb;
+.modern-navbar .navbar-brand .brand-icon {
+  font-size: 1.6rem;
+  -webkit-text-fill-color: initial;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modern-navbar .nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 8px 16px !important;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.modern-navbar .nav-link:hover {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.modern-navbar .nav-link.auth-btn {
+  background: var(--accent-gradient);
+  color: white !important;
+  font-weight: 600;
+  padding: 8px 20px !important;
+  margin-left: 8px;
+}
+
+.modern-navbar .nav-link.auth-btn:hover {
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.modern-navbar .nav-link.logout-btn {
+  background: rgba(255, 71, 87, 0.12);
+  color: var(--danger) !important;
+  font-weight: 600;
+  padding: 8px 20px !important;
+}
+
+.modern-navbar .nav-link.logout-btn:hover {
+  background: rgba(255, 71, 87, 0.25);
+}
+
+/* ===== Main container ===== */
+.app-content {
+  min-height: 100vh;
 }
