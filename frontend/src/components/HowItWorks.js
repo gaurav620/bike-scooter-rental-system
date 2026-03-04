@@ -1,4 +1,5 @@
 import React from 'react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const steps = [
   {
@@ -32,8 +33,10 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const [sectionRef, isVisible] = useScrollAnimation({ threshold: 0.1 });
+
   return (
-    <div style={styles.section}>
+    <div ref={sectionRef} style={styles.section}>
       <h2 className="section-title" style={{ textAlign: 'center' }}>How It Works</h2>
       <p className="section-subtitle" style={{ textAlign: 'center' }}>
         Get on the road in 4 simple steps
@@ -43,10 +46,12 @@ const HowItWorks = () => {
         {steps.map((step, i) => (
           <div
             key={i}
-            className="glass-card"
+            className="glass-card scroll-card"
             style={{
               ...styles.card,
-              animationDelay: `${i * 0.12}s`,
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+              transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.12}s`,
             }}
           >
             <div style={{ ...styles.iconWrap, background: `${step.color}15`, border: `1px solid ${step.color}30` }}>
@@ -82,7 +87,6 @@ const styles = {
     padding: '32px 24px',
     textAlign: 'center',
     position: 'relative',
-    animation: 'fadeInUp 0.6s ease-out both',
   },
   iconWrap: {
     width: '70px',

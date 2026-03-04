@@ -1,4 +1,5 @@
 import React from 'react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const features = [
   {
@@ -40,8 +41,10 @@ const features = [
 ];
 
 const WhyChooseUs = () => {
+  const [sectionRef, isVisible] = useScrollAnimation({ threshold: 0.1 });
+
   return (
-    <div style={styles.section}>
+    <div ref={sectionRef} style={styles.section}>
       <h2 className="section-title" style={{ textAlign: 'center' }}>Why Choose RideFleet?</h2>
       <p className="section-subtitle" style={{ textAlign: 'center' }}>
         Everything you need for a hassle-free ride experience
@@ -51,10 +54,12 @@ const WhyChooseUs = () => {
         {features.map((f, i) => (
           <div
             key={i}
-            className="glass-card"
+            className="glass-card scroll-card"
             style={{
               ...styles.card,
-              animationDelay: `${i * 0.1}s`,
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+              transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.1}s`,
             }}
           >
             <div style={{ ...styles.iconBox, background: `${f.color}12`, border: `1px solid ${f.color}25` }}>
@@ -83,7 +88,6 @@ const styles = {
   },
   card: {
     padding: '32px',
-    animation: 'fadeInUp 0.6s ease-out both',
   },
   iconBox: {
     width: '60px',

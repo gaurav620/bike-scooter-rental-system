@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Navbar as BootstrapNavbar, Nav, Container } from 'react-bootstrap';
 import Login from './pages/Login';
@@ -22,6 +22,21 @@ import './App.css';
 
 function App() {
   const user = getUser();
+
+  // Frosted glass navbar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const navbar = document.querySelector('.modern-navbar');
+      if (!navbar) return;
+      if (window.scrollY > 50) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <Router>

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useScrollAnimation, useAnimatedCounter } from '../hooks/useScrollAnimation';
 
 const Hero = () => {
+  const [statsRef, statsVisible] = useScrollAnimation({ threshold: 0.3 });
+
   const stats = [
     { value: '100+', label: 'Happy Riders', icon: '👥' },
     { value: '4.8', label: 'User Rating', icon: '⭐' },
@@ -22,8 +25,8 @@ const Hero = () => {
         </div>
 
         <h1 style={styles.heading}>
-          Rent <span style={styles.gradientText}>Electric</span>{' '}
-          <span style={styles.gradientText}>Scooters</span>
+          Rent{' '}
+          <span className="shimmer-text">Electric Scooters</span>
           <br />in Kalyani, WB
         </h1>
 
@@ -50,21 +53,18 @@ const Hero = () => {
         </div>
 
         <div style={styles.cta}>
-          <a href="/vehicles" style={styles.ctaBtn}>
+          <a href="/vehicles" style={styles.ctaBtn} className="cta-primary">
             Explore Scooters →
           </a>
-          <a href="/register" style={styles.ctaBtnOutline}>
+          <a href="/register" style={styles.ctaBtnOutline} className="cta-outline">
             Get Started Free
           </a>
         </div>
 
-        <div style={styles.stats}>
+        {/* Animated Stats */}
+        <div ref={statsRef} style={styles.stats}>
           {stats.map((stat, i) => (
-            <div key={i} style={styles.statItem}>
-              <span style={styles.statIcon}>{stat.icon}</span>
-              <span style={styles.statValue}>{stat.value}</span>
-              <span style={styles.statLabel}>{stat.label}</span>
-            </div>
+            <AnimatedStat key={i} stat={stat} isVisible={statsVisible} delay={i * 100} />
           ))}
         </div>
 
@@ -74,14 +74,34 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scooter Image */}
-      <div style={styles.imageContainer}>
+      {/* Scooter Image with Glow */}
+      <div style={styles.imageContainer} className="hero-image-container">
+        <div className="scooter-glow"></div>
         <img
           src="/scooter-hero.png"
           alt="Electric Scooter"
+          className="scooter-float"
           style={styles.heroImage}
         />
       </div>
+    </div>
+  );
+};
+
+// Sub-component for animated stat counter
+const AnimatedStat = ({ stat, isVisible, delay }) => {
+  const count = useAnimatedCounter(stat.value, isVisible, 2000 + delay);
+
+  return (
+    <div style={{
+      ...styles.statItem,
+      opacity: isVisible ? 1 : 0,
+      transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+      transition: `all 0.6s ease ${delay}ms`,
+    }}>
+      <span style={styles.statIcon}>{stat.icon}</span>
+      <span style={styles.statValue}>{count}</span>
+      <span style={styles.statLabel}>{stat.label}</span>
     </div>
   );
 };
@@ -153,6 +173,7 @@ const styles = {
     height: '8px',
     borderRadius: '50%',
     background: '#06d6a0',
+    display: 'inline-block',
     animation: 'pulse-glow 2s infinite',
   },
   heading: {
@@ -162,11 +183,6 @@ const styles = {
     color: '#ffffff',
     marginBottom: '20px',
     letterSpacing: '-0.5px',
-  },
-  gradientText: {
-    background: 'linear-gradient(135deg, #00d4ff, #7c3aed)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
   },
   subtitle: {
     fontSize: '1.05rem',
@@ -281,9 +297,9 @@ const styles = {
     maxWidth: '100%',
     maxHeight: '450px',
     objectFit: 'contain',
-    filter: 'drop-shadow(0 20px 60px rgba(0, 212, 255, 0.2))',
-    animation: 'float 4s ease-in-out infinite',
     borderRadius: '16px',
+    position: 'relative',
+    zIndex: 2,
   },
 };
 

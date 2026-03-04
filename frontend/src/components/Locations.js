@@ -1,4 +1,5 @@
 import React from 'react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const activeCity = {
   name: 'Kalyani',
@@ -27,15 +28,26 @@ const comingSoonCities = [
 ];
 
 const Locations = () => {
+  const [sectionRef, isVisible] = useScrollAnimation({ threshold: 0.1 });
+  const [gridRef, gridVisible] = useScrollAnimation({ threshold: 0.05 });
+
   return (
-    <div style={styles.section}>
+    <div ref={sectionRef} style={styles.section}>
       <h2 className="section-title" style={{ textAlign: 'center' }}>📍 Service Locations</h2>
       <p className="section-subtitle" style={{ textAlign: 'center' }}>
         Currently serving Kalyani — expanding to more cities soon!
       </p>
 
       {/* Active City - Featured */}
-      <div style={styles.activeCard} className="glass-card">
+      <div
+        className="glass-card"
+        style={{
+          ...styles.activeCard,
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+      >
         <div style={styles.activeHeader}>
           <div style={styles.liveBadge}>
             <span style={styles.liveDot}></span>
@@ -62,16 +74,22 @@ const Locations = () => {
 
       {/* Coming Soon Grid */}
       <h4 style={styles.comingSoonTitle}>🚀 Coming Soon</h4>
-      <div style={styles.grid}>
+      <div ref={gridRef} style={styles.grid}>
         {comingSoonCities.map((city, i) => (
           <div
             key={i}
-            style={styles.cityTag}
+            className="city-card-glass"
+            style={{
+              ...styles.cityTag,
+              opacity: gridVisible ? 1 : 0,
+              transform: gridVisible ? 'translateY(0)' : 'translateY(20px)',
+              transition: `all 0.5s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.04}s`,
+            }}
           >
             <span style={styles.pin}>📍</span>
             <span style={styles.cityName}>{city.name}</span>
             <span style={styles.region}>{city.state}</span>
-            <span style={styles.comingSoonBadge}>Soon</span>
+            <span className="soon-badge-pulse">Soon</span>
           </div>
         ))}
       </div>
@@ -111,6 +129,7 @@ const styles = {
     height: '8px',
     borderRadius: '50%',
     background: '#06d6a0',
+    display: 'inline-block',
     animation: 'pulse-glow 1.5s infinite',
   },
   activeContent: {
@@ -159,43 +178,33 @@ const styles = {
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-    gap: '10px',
+    gap: '12px',
     maxWidth: '1100px',
     margin: '0 auto',
   },
   cityTag: {
-    padding: '12px 14px',
+    padding: '14px 16px',
     display: 'flex',
     alignItems: 'center',
-    gap: '6px',
-    borderRadius: '10px',
-    background: 'rgba(255, 255, 255, 0.03)',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
-    color: 'var(--text-muted)',
+    gap: '8px',
+    borderRadius: '14px',
     fontSize: '0.85rem',
-    opacity: 0.6,
+    cursor: 'default',
   },
   pin: {
     fontSize: '0.8rem',
-    opacity: 0.5,
+    opacity: 0.6,
   },
   cityName: {
     fontWeight: '600',
     flex: 1,
+    color: 'var(--text-secondary)',
   },
   region: {
     fontSize: '0.65rem',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
-    opacity: 0.6,
-  },
-  comingSoonBadge: {
-    background: 'rgba(255, 165, 2, 0.1)',
-    color: '#ffa502',
-    padding: '2px 8px',
-    borderRadius: '8px',
-    fontSize: '0.65rem',
-    fontWeight: '700',
+    color: 'var(--text-muted)',
   },
 };
 
