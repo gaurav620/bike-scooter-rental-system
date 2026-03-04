@@ -16,7 +16,15 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://bike-scooter-rental-system.vercel.app',
+    'https://gaurav620-bike-scooter-rental-syste.vercel.app',
+    /\.vercel\.app$/
+  ],
+  credentials: true
+}));
 app.use(express.json());  // Parse JSON bodies
 
 // Routes
