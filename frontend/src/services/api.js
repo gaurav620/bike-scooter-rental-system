@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:2002/api' });
+const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL || 'https://ridefleet-api.onrender.com/api'
+});
 
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem('token');
