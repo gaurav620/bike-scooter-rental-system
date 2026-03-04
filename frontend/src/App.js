@@ -14,6 +14,8 @@ import HelpCenter from './pages/HelpCenter';
 import ContactUs from './pages/ContactUs';
 import FAQs from './pages/FAQs';
 import PartnerWithUs from './pages/PartnerWithUs';
+import ScooterMap from './components/ScooterMap';
+import Chatbot from './components/Chatbot';
 import { logout, getUser } from './utils/auth';
 import Footer from './components/Footer';
 import './App.css';
@@ -35,6 +37,7 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/">Home</Nav.Link>
               <Nav.Link as={Link} to="/vehicles">Vehicles</Nav.Link>
+              <Nav.Link as={Link} to="/map">🗺️ Live Map</Nav.Link>
               {user && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
             </Nav>
             <Nav>
@@ -57,6 +60,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/vehicles" element={<Vehicles />} />
+          <Route path="/map" element={<ScooterMap />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/blog" element={<Blog />} />
@@ -70,6 +74,7 @@ function App() {
       </div>
 
       <Footer />
+      <Chatbot />
     </Router>
   );
 }

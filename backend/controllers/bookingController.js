@@ -6,10 +6,11 @@ const createBooking = async (req, res) => {
   try {
     const { vehicleId, startTime, duration } = req.body;
     const vehicle = await Vehicle.findById(vehicleId);
+    if (!vehicle) return res.status(404).json({ msg: 'Vehicle not found' });
     if (vehicle.status !== 'available') return res.status(400).json({ msg: 'Unavailable' });
 
     const booking = new Booking({
-      user: req.user.id,  // From auth
+      user: req.user.id,
       vehicle: vehicleId,
       startTime,
       duration,
@@ -19,6 +20,16 @@ const createBooking = async (req, res) => {
 
     vehicle.status = 'in-use';
     await vehicle.save();
+
+    // Emit real-time vehicle status change
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('vehicle-status-change', {
+        vehicleId: vehicle._id,
+        status: 'in-use',
+        model: vehicle.model,
+      });
+    }
 
     res.status(201).json(booking);
   } catch (err) {
@@ -30,6 +41,7 @@ const createBooking = async (req, res) => {
 const cancelBooking = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
     if (booking.user.toString() !== req.user.id) return res.status(401).json({ msg: 'Unauthorized' });
 
     booking.status = 'cancelled';
@@ -38,6 +50,16 @@ const cancelBooking = async (req, res) => {
     const vehicle = await Vehicle.findById(booking.vehicle);
     vehicle.status = 'available';
     await vehicle.save();
+
+    // Emit real-time vehicle status change
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('vehicle-status-change', {
+        vehicleId: vehicle._id,
+        status: 'available',
+        model: vehicle.model,
+      });
+    }
 
     res.json(booking);
   } catch (err) {

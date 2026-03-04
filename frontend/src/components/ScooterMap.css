@@ -1,0 +1,225 @@
+.map-page {
+    padding: 40px 5%;
+    min-height: 100vh;
+    background: var(--bg-primary);
+}
+
+.map-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.map-title {
+    margin-bottom: 8px;
+}
+
+.map-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.map-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.map-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    padding: 10px 20px;
+    border-radius: 50px;
+}
+
+.stat-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.stat-dot.available {
+    background: #06d6a0;
+    box-shadow: 0 0 8px rgba(6, 214, 160, 0.5);
+}
+
+.stat-dot.in-use {
+    background: #ff4757;
+    box-shadow: 0 0 8px rgba(255, 71, 87, 0.5);
+}
+
+.stat-dot.total {
+    background: #7c3aed;
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+}
+
+.stat-num {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.map-container {
+    position: relative;
+    height: 500px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-glass);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Map popup styling */
+.map-popup {
+    text-align: center;
+    padding: 4px;
+    min-width: 160px;
+}
+
+.map-popup h4 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1f3a;
+}
+
+.popup-type {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0 0 6px;
+    text-transform: capitalize;
+}
+
+.popup-status {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.popup-specs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: #444;
+    margin-bottom: 6px;
+}
+
+.popup-location {
+    font-size: 0.75rem;
+    color: #888;
+    margin: 0 0 8px;
+}
+
+.popup-book-btn {
+    display: inline-block;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #00d4ff, #7c3aed);
+    color: white !important;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+}
+
+.popup-book-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Legend */
+.map-legend {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(13, 16, 37, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px 18px;
+    z-index: 1000;
+    color: white;
+}
+
+.map-legend h4 {
+    margin: 0 0 10px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted, #999);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    color: #ccc;
+}
+
+.legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Loading */
+.map-loading {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+}
+
+.map-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid #00d4ff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .map-container {
+        height: 400px;
+    }
+
+    .map-stats {
+        gap: 12px;
+    }
+
+    .map-stat {
+        padding: 8px 14px;
+    }
+}
