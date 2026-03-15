@@ -4,6 +4,7 @@ const Vehicle = require('../models/Vehicle');
 const startRide = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
     if (booking.user.toString() !== req.user.id || booking.status !== 'booked') {
       return res.status(400).json({ msg: 'Invalid' });
     }
@@ -21,6 +22,7 @@ const startRide = async (req, res) => {
 const endRide = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
     if (booking.user.toString() !== req.user.id || booking.status !== 'active') {
       return res.status(400).json({ msg: 'Invalid' });
     }
@@ -33,9 +35,11 @@ const endRide = async (req, res) => {
     await booking.save();
 
     const vehicle = await Vehicle.findById(booking.vehicle);
-    vehicle.status = 'available';
-    vehicle.mileage += 10;
-    await vehicle.save();
+    if (vehicle) {
+      vehicle.status = 'available';
+      vehicle.mileage += 10;
+      await vehicle.save();
+    }
 
     res.json(booking);
   } catch (err) {
