@@ -48,17 +48,19 @@ const cancelBooking = async (req, res) => {
     await booking.save();
 
     const vehicle = await Vehicle.findById(booking.vehicle);
-    vehicle.status = 'available';
-    await vehicle.save();
+    if (vehicle) {
+      vehicle.status = 'available';
+      await vehicle.save();
 
-    // Emit real-time vehicle status change
-    const io = req.app.get('io');
-    if (io) {
-      io.emit('vehicle-status-change', {
-        vehicleId: vehicle._id,
-        status: 'available',
-        model: vehicle.model,
-      });
+      // Emit real-time vehicle status change
+      const io = req.app.get('io');
+      if (io) {
+        io.emit('vehicle-status-change', {
+          vehicleId: vehicle._id,
+          status: 'available',
+          model: vehicle.model,
+        });
+      }
     }
 
     res.json(booking);

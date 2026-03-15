@@ -33,6 +33,7 @@ const createOrder = async (req, res) => {
     res.json({ order, key: process.env.RAZORPAY_KEY_ID });  // Send to frontend
   } catch (err) {
     console.error('Create Order Error:', err); // Log error for debugging
+    if (err.isOperational) throw err;
     throw new AppError(err.message, 500);
   }
 };
@@ -60,6 +61,7 @@ const verifyPayment = async (req, res) => {
     res.json({ msg: 'Payment verified', booking });
   } catch (err) {
     console.error('Verify Payment Error:', err); // Log error for debugging
+    if (err.isOperational) throw err;
     throw new AppError(err.message, 500);
   }
 };
